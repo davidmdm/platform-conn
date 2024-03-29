@@ -15,7 +15,8 @@
 
     <style>
       body {
-        --emphasis: rgb(247, 247, 148);
+        --primary: rgb(247, 247, 148);
+        --secondary: #654ff0;
       }
 
       p {
@@ -25,7 +26,7 @@
         font-size: 1.3em;
         font-weight: bold;
         text-align: start;
-        color: var(--emphasis);
+        color: var(--primary);
       }
       .small {
         font-size: 0.7em;
@@ -143,13 +144,14 @@
           <p class="fragment small">Resources are structured data</p>
           <p class="fragment small">
             The most effective tools for handling structured data are
-            <span style="color: var(--emphasis); font-weight: bold">programming languages</span>
+            <span style="color: var(--primary); font-weight: bold">programming languages</span>
           </p>
         </section>
 
         <section>
           <p class="header">What is a Helm Chart?</p>
-          <p class="fragment">
+          <hr />
+          <p>
             <span class="fragment mrp5">values.yaml <img class="inline-img" src="/imgs/file.svg" /></span>
             <span class="fragment mrp5">+</span>
             <span class="fragment mrp5">templates <img class="inline-img" src="/imgs/files.svg" /></span>
@@ -159,15 +161,52 @@
 
           <hr class="fragment" style="margin: 1em 0" />
           <p class="header fragment">What is a Code Package?</p>
-          <p class="fragment">
+          <p>
             <span class="fragment mrp5">input</span>
             <span class="fragment mrp5">+</span>
             <span class="fragment mrp5" style="color: aqua; font-style: italic">f(x)</span>
             <span class="fragment mrp5">=</span>
-            <span class="fragment mrp5">output</span>
+            <span class="fragment mrp5">output / K8s API resource(s)</span>
           </p>
           <hr class="fragment" style="margin: 1em 0" />
-          <p class="fragment" style="color: blueviolet">A Helm Chart is a subset of Code Packages</p>
+          <p class="fragment" style="color: var(--secondary)">A Helm Chart is a subset of Code Packages</p>
+        </section>
+
+        <section>
+          <p class="header">Advantages of describing packages as code</p>
+          <ul>
+            <li class="fragment">fully fledged developer environment</li>
+            <li class="fragment">discoverable contracts / compiler errors / static type checking</li>
+            <li class="fragment">control flow</li>
+            <li class="fragment">builtin testing</li>
+            <li class="fragment">
+              packaging, distribution and versioning is already solved: cargo, go modules, npm, and so on
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <p class="header">Code Packages: TLDR;</p>
+          <p class="fragment">Packages are programs that output Kubernetes resources</p>
+          <p class="fragment">We can share packages by sharing code</p>
+        </section>
+
+        <section>
+          <p class="header">Challenges</p>
+          <hr />
+          <p class="fragment small" style="color: aqua">How do we package code?</p>
+          <hr class="fragment" />
+          <p class="fragment small">Tools will want to execute our packages.</p>
+          <p class="fragment small">How can we support different languages? Different architectures?</p>
+          <hr class="fragment" />
+          <p class="fragment small" style="color: aqua">How de we run code securely?</p>
+          <hr class="fragment" />
+          <p class="fragment small">Third party code shouldn't be allowed to do arbitrary operations</p>
+          <p class="fragment small" style="font-weight: bolder; color: var(--secondary)">or access our clusters...</p>
+        </section>
+
+        <section>
+          <img style="width: 9em" src="/imgs/wasm.svg" />
         </section>
       </div>
     </div>
