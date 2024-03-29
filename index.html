@@ -1,40 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black-contrast.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    <style>
+      p {
+        text-align: start;
+      }
+      p.header {
+        font-size: 1.3em;
+        font-weight: bold;
+        text-align: start;
+        color: rgb(247, 247, 148);
+      }
+      .small {
+        font-size: 0.7em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <p class="header">Yoke: An Exploration into Infrastructure as Code (IaC) and Kubernetes Package Management</p>
+          <p class="fragment small" style="color: cyan">
+            (A story from a platform engineer who wants to move beyond YAML for good)
+          </p>
+        </section>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        <section>
+          <p class="header">Kubernetes APIs and the Manifest Conflation</p>
+          <ul style="font-size: 0.8em">
+            <li class="fragment">K8s offers APIs for creating and managing resources</li>
+            <li class="fragment">
+              Resources are repesented in their entirety and K8s calculates the diff and applies it
+            </li>
+            <li class="fragment">These APIs are encoded as YAML Manifests and are synced with K8s clusters</li>
+            <li class="fragment">A set of manifests that together define an application is a package</li>
+            <li class="fragment">We make packages configurable and reusable via templating</li>
+          </ul>
+        </section>
+        <section>
+          <p class="header">In a word:</p>
+          <img class="fragment r-fit-text" style="width: 30%" src="/helm.svg" />
+          <p class="fragment">The defacto solution for K8s Package Management</p>
+        </section>
+        <section>
+          <p class="header">
+            A Healthy Dose of
+            <img src="/reddit.svg" style="display: inline; width: 1em; position: relative; top: 0.5em; left: 0.25em" />
+          </p>
+          <p class="fragment">
+            “Helm templating language was a mistake. > 90% of helm chart commits are bug fixes for indent”
+          </p>
+          <p class="fragment">“Helm makes it overly complex, or is it just me?”</p>
+          <p class="fragment">“Why Helm's design is flawed”</p>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
 </html>
