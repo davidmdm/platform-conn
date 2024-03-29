@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="plugin/highlight/monokai.css" />
 
     <style>
+      body {
+        --emphasis: rgb(247, 247, 148);
+      }
+
       p {
         text-align: start;
       }
@@ -21,10 +25,29 @@
         font-size: 1.3em;
         font-weight: bold;
         text-align: start;
-        color: rgb(247, 247, 148);
+        color: var(--emphasis);
       }
       .small {
         font-size: 0.7em;
+      }
+      li {
+        font-size: 0.8em;
+      }
+      ul {
+        width: 100%;
+      }
+
+      .inline-img {
+        display: inline;
+        width: 1em;
+        position: relative;
+        top: 0.5em;
+        left: 0.25em;
+        margin-right: 0.5em;
+      }
+
+      .mrp5 {
+        margin-right: 0.5em;
       }
     </style>
   </head>
@@ -50,21 +73,101 @@
             <li class="fragment">We make packages configurable and reusable via templating</li>
           </ul>
         </section>
+
         <section>
           <p class="header">In a word:</p>
-          <img class="fragment r-fit-text" style="width: 30%" src="/helm.svg" />
+          <img class="fragment r-fit-text" style="width: 30%" src="/imgs/helm.svg" />
           <p class="fragment">The defacto solution for K8s Package Management</p>
         </section>
+
         <section>
           <p class="header">
             A Healthy Dose of
-            <img src="/reddit.svg" style="display: inline; width: 1em; position: relative; top: 0.5em; left: 0.25em" />
+            <img
+              src="/imgs/reddit.svg"
+              style="display: inline; width: 1em; position: relative; top: 0.5em; left: 0.25em"
+            />
+
+            <span class="fragment"><br />(🍒 picking)</span>
           </p>
           <p class="fragment">
             “Helm templating language was a mistake. > 90% of helm chart commits are bug fixes for indent”
           </p>
           <p class="fragment">“Helm makes it overly complex, or is it just me?”</p>
           <p class="fragment">“Why Helm's design is flawed”</p>
+        </section>
+
+        <section>
+          <p class="header">The Issues with Helm</p>
+          <ul>
+            <li class="fragment">not statically typed</li>
+            <li class="fragment">sensitive to typos and indentations</li>
+            <li class="fragment">no builtin testing</li>
+            <li class="fragment">difficult to express complicated logic or do on the fly computations</li>
+            <li class="fragment">manually need to maintain schema and values - most projects forgo schemas</li>
+            <li class="fragment">inconsistent experience between editors (pay-to-play)</li>
+            <li class="fragment">no documentation generation - read the <em>YAML</em></li>
+          </ul>
+        </section>
+
+        <section>
+          <p class="header">Question: How it is solved?</p>
+          <p class="fragment" style="color: aqua"><strong>Answer: More tooling</strong></p>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <p class="fragment small">Bespoke test frameworks:</p>
+              <ul>
+                <li class="fragment"><a href="https://github.com/helm-unittest/helm-unittest">helm-unittest</a></li>
+                <li class="fragment"><a href="https://github.com/silphid/testchart">testchart</a></li>
+                <li class="fragment">...</li>
+              </ul>
+            </div>
+            <div>
+              <p class="fragment small">Schemas and Data Validation:</p>
+              <ul>
+                <li class="fragment"><a href="https://cuelang.org/">Cue</a></li>
+                <li class="fragment"><a href="https://json-schema.org/">JSON Schema</a></li>
+                <li class="fragment">...</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <p class="header">Coming back through the looking glass</p>
+          <p class="fragment small" style="color: aqua">Why YAML?</p>
+          <p class="fragment small" style="color: aqua">Why templates?</p>
+          <p class="fragment small">
+            K8s resources differ fundamentally from web pages, emails, and push notifications
+          </p>
+          <p class="fragment small">Resources are structured data</p>
+          <p class="fragment small">
+            The most effective tools for handling structured data are
+            <span style="color: var(--emphasis); font-weight: bold">programming languages</span>
+          </p>
+        </section>
+
+        <section>
+          <p class="header">What is a Helm Chart?</p>
+          <p class="fragment">
+            <span class="fragment mrp5">values.yaml <img class="inline-img" src="/imgs/file.svg" /></span>
+            <span class="fragment mrp5">+</span>
+            <span class="fragment mrp5">templates <img class="inline-img" src="/imgs/files.svg" /></span>
+            <span class="fragment mrp5">=</span>
+            <span class="fragment mrp5">manifests <img class="inline-img" src="/imgs/files.svg" /></span>
+          </p>
+
+          <hr class="fragment" style="margin: 1em 0" />
+          <p class="header fragment">What is a Code Package?</p>
+          <p class="fragment">
+            <span class="fragment mrp5">input</span>
+            <span class="fragment mrp5">+</span>
+            <span class="fragment mrp5" style="color: aqua; font-style: italic">f(x)</span>
+            <span class="fragment mrp5">=</span>
+            <span class="fragment mrp5">output</span>
+          </p>
+          <hr class="fragment" style="margin: 1em 0" />
+          <p class="fragment" style="color: blueviolet">A Helm Chart is a subset of Code Packages</p>
         </section>
       </div>
     </div>
