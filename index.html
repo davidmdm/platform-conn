@@ -17,6 +17,7 @@
       body {
         --primary: rgb(247, 247, 148);
         --secondary: #654ff0;
+        --tertiary: #00add8;
       }
 
       p {
@@ -113,7 +114,7 @@
 
         <section>
           <p class="header">Question: How it is solved?</p>
-          <p class="fragment" style="color: aqua"><strong>Answer: More tooling</strong></p>
+          <p class="fragment" style="color: var(--tertiary)"><strong>Answer: More tooling</strong></p>
           <div style="display: flex; justify-content: space-between">
             <div>
               <p class="fragment small">Bespoke test frameworks:</p>
@@ -136,8 +137,8 @@
 
         <section>
           <p class="header">Coming back through the looking glass</p>
-          <p class="fragment small" style="color: aqua">Why YAML?</p>
-          <p class="fragment small" style="color: aqua">Why templates?</p>
+          <p class="fragment small" style="color: var(--tertiary)">Why YAML?</p>
+          <p class="fragment small" style="color: var(--tertiary)">Why templates?</p>
           <p class="fragment small">
             K8s resources differ fundamentally from web pages, emails, and push notifications
           </p>
@@ -162,11 +163,11 @@
           <hr class="fragment" style="margin: 1em 0" />
           <p class="header fragment">What is a Code Package?</p>
           <p>
-            <span class="fragment mrp5">input</span>
+            <span class="fragment mrp5">Input</span>
             <span class="fragment mrp5">+</span>
-            <span class="fragment mrp5" style="color: aqua; font-style: italic">f(x)</span>
+            <span class="fragment mrp5" style="color: var(--tertiary); font-style: italic">f(x)</span>
             <span class="fragment mrp5">=</span>
-            <span class="fragment mrp5">output / K8s API resource(s)</span>
+            <span class="fragment mrp5">Output / K8s API resource(s)</span>
           </p>
           <hr class="fragment" style="margin: 1em 0" />
           <p class="fragment" style="color: var(--secondary)">A Helm Chart is a subset of Code Packages</p>
@@ -194,19 +195,103 @@
         <section>
           <p class="header">Challenges</p>
           <hr />
-          <p class="fragment small" style="color: aqua">How do we package code?</p>
+          <p class="fragment small" style="color: var(--tertiary)">How do we package code?</p>
           <hr class="fragment" />
           <p class="fragment small">Tools will want to execute our packages.</p>
           <p class="fragment small">How can we support different languages? Different architectures?</p>
           <hr class="fragment" />
-          <p class="fragment small" style="color: aqua">How de we run code securely?</p>
+          <p class="fragment small" style="color: var(--tertiary)">How de we run code securely?</p>
           <hr class="fragment" />
           <p class="fragment small">Third party code shouldn't be allowed to do arbitrary operations</p>
           <p class="fragment small" style="font-weight: bolder; color: var(--secondary)">or access our clusters...</p>
         </section>
 
         <section>
-          <img style="width: 9em" src="/imgs/wasm.svg" />
+          <img style="width: 10em" src="/imgs/wasm.svg" />
+        </section>
+
+        <section>
+          <p class="header">Webassembly as package format</p>
+          <ul>
+            <li class="fragment">
+              One target for multiple languages and ecosystems, supported by: <span style="color: #00add8">go</span>,
+              <span style="color: orangered">rust</span>, <span style="color: yellow">zig</span>, and so on...
+            </li>
+            <li class="fragment">Sandboxed runtime without access to the filesystem or network.</li>
+            <li class="fragment">Single asset that is easy to host, download, checksum, and execute.</li>
+            <li class="fragment">Independent of OS Architecture</li>
+          </ul>
+        </section>
+
+        <section>
+          <p class="header">Yoke: The experimental IaC Package Manager for K8s</p>
+
+          <p class="fragment small">
+            Yoke executes wasm programs, and creates a release from the output, tracking revisions accross time like
+            helm.
+          </p>
+          <p class="fragment small">In Yoke, packages, or programs that output K8s resources, are called Flights.</p>
+        </section>
+
+        <section>
+          <p class="header">Demo Flight:</p>
+          <pre
+            class="fragment"
+            data-id="code-animation"
+          ><code style="padding: 1em; border-radius: 0.25em; font-size: 0.8em;" class="hljs golang" data-trim data-line-numbers="|1|9-11|25-27|29-40|42-45|47-49|51"><script type="text/template">
+            package main
+
+            import (
+            	"encoding/json"
+            	"flag"
+            	"fmt"
+            	"os"
+
+            	appsv1 "k8s.io/client-go/applyconfigurations/apps/v1"
+            	corev1 "k8s.io/client-go/applyconfigurations/core/v1"
+            	metav1 "k8s.io/client-go/applyconfigurations/meta/v1"
+            )
+
+            func main() {
+            	if err := run(); err != nil {
+            		fmt.Fprintln(os.Stderr, err)
+            		os.Exit(1)
+            	}
+            }
+
+            func run() error {
+            	name := os.Args[0] + "-demo"
+            	labels := map[string]string{"app": name}
+            
+            	replicas := flag.Int("replicas", 2, "replica count")
+            
+            	flag.Parse()
+            
+            	podTemplate := corev1.PodTemplateSpec().
+            		WithLabels(labels).
+            		WithSpec(
+            			corev1.
+            				PodSpec().
+            				WithContainers(
+            					corev1.Container().
+            						WithName(name).
+            						WithImage("alpine:latest").
+            						WithCommand("watch", "echo", "hello", "world"),
+            				),
+            		)
+            
+            	spec := appsv1.DeploymentSpec().
+            		WithReplicas(int32(*replicas)).
+            		WithSelector(metav1.LabelSelector().WithMatchLabels(labels)).
+            		WithTemplate(podTemplate)
+            
+            	deployment := appsv1.Deployment(name, "").
+            		WithLabels(labels).
+            		WithSpec(spec)
+            
+            	return json.NewEncoder(os.Stdout).Encode([]any{deployment})
+            }
+					</script></code></pre>
         </section>
       </div>
     </div>
