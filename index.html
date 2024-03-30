@@ -497,7 +497,35 @@
         </section>
 
         <section>
+          <p class="header">Continuous Deployment Tools</p>
+          <p class="fragment small">
+            Client-Side tools for managing resources such as `helm` or using `kubectl apply` are falling out of favor.
+          </p>
+          <p class="fragment small">
+            In-Cluster operators that sync manifests from git repositories and allow you to manage those resources are
+            the new norm.
+          </p>
+          <ul>
+            <li class="fragment"><a href="https://argoproj.github.io/cd/">ArgoCD</a></li>
+            <li class="fragment"><a href="https://fluxcd.io/">Flux</a></li>
+          </ul>
+        </section>
+
+        <section>
           <p class="header">YokeCD: Yoke + ArgoCD</p>
+          <p class="fragment small">
+            ArgoCD defines Applications bound to some source directory within a git repository.
+          </p>
+          <p class="fragment small">
+            Helm is a first class citizen supported by ArgoCD Applications. Helm Charts are executed and the underlying
+            resources managed by ArgoCD.
+          </p>
+          <p class="fragment small">
+            <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/"
+              >Config Management Plugins</a
+            >
+            allow to extend Application behaviour and generate resources directly from the plugin.
+          </p>
         </section>
       </div>
     </div>
