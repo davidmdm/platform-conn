@@ -16,8 +16,8 @@
     <style>
       body {
         --primary: rgb(247, 247, 148);
-        --secondary: #654ff0;
-        --tertiary: #00add8;
+        --secondary: #7561f8;
+        --tertiary: cyan;
       }
 
       p {
@@ -63,22 +63,18 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <p class="header">Yoke: An Exploration into Infrastructure as Code (IaC) and Kubernetes Package Management</p>
-          <p class="fragment small" style="color: cyan">
-            (A story from a platform engineer who wants to move beyond YAML for good)
-          </p>
+          <p class="header">Yoke: An Exploration into Kubernetes Package Management as Code</p>
+          <p class="fragment small" style="color: var(--tertiary)">(A story from a platform engineer who wants to move beyond YAML for good)</p>
         </section>
 
         <section>
           <p class="header">Kubernetes APIs and the Manifest Conflation</p>
           <ul style="font-size: 0.8em">
-            <li class="fragment">K8s offers APIs for creating and managing resources</li>
-            <li class="fragment">
-              Resources are repesented in their entirety and K8s calculates the diff and applies it
-            </li>
-            <li class="fragment">These APIs are encoded as YAML Manifests and are synced with K8s clusters</li>
-            <li class="fragment">A set of manifests that together define an application is a package</li>
-            <li class="fragment">We make packages configurable and reusable via templating</li>
+            <li class="fragment">K8s offers APIs for creating and managing resources.</li>
+            <li class="fragment">Resources are repesented in their entirety and K8s calculates the diff and applies it.</li>
+            <li class="fragment">These APIs are encoded as YAML Manifests and are synced with K8s clusters.</li>
+            <li class="fragment">A set of manifests that together define an application is a package.</li>
+            <li class="fragment">We make packages configurable and reusable via templating.</li>
           </ul>
         </section>
 
@@ -91,16 +87,11 @@
         <section>
           <p class="header">
             A Healthy Dose of
-            <img
-              src="/imgs/reddit.svg"
-              style="display: inline; width: 1em; position: relative; top: 0.5em; left: 0.25em"
-            />
+            <img src="/imgs/reddit.svg" style="display: inline; width: 1em; position: relative; top: 0.5em; left: 0.25em" />
 
             <span class="fragment"><br />(🍒 picking)</span>
           </p>
-          <p class="fragment">
-            “Helm templating language was a mistake. > 90% of helm chart commits are bug fixes for indent”
-          </p>
+          <p class="fragment">“Helm templating language was a mistake. > 90% of helm chart commits are bug fixes for indent”</p>
           <p class="fragment">“Helm makes it overly complex, or is it just me?”</p>
           <p class="fragment">“Why Helm's design is flawed”</p>
         </section>
@@ -108,13 +99,13 @@
         <section>
           <p class="header">The Issues with Helm</p>
           <ul>
-            <li class="fragment">not statically typed</li>
-            <li class="fragment">sensitive to typos and indentations</li>
-            <li class="fragment">no builtin testing</li>
-            <li class="fragment">difficult to express complicated logic or do on the fly computations</li>
-            <li class="fragment">manually need to maintain schema and values - most projects forgo schemas</li>
-            <li class="fragment">inconsistent experience between editors (pay-to-play)</li>
-            <li class="fragment">no documentation generation - read the <em>YAML</em></li>
+            <li class="fragment">Not statically typed</li>
+            <li class="fragment">Sensitive to typos and indentation errors</li>
+            <li class="fragment">No builtin testing</li>
+            <li class="fragment">Manually need to maintain schema and values - most projects forgo schemas</li>
+            <li class="fragment">Difficult to derive new data from inputs</li>
+            <li class="fragment">Inconsistent experience between editors (pay-to-play)</li>
+            <li class="fragment">No documentation generation - read the <em>YAML</em></li>
           </ul>
         </section>
 
@@ -145,13 +136,11 @@
           <p class="header">Coming back through the looking glass</p>
           <p class="fragment small" style="color: var(--tertiary)">Why YAML?</p>
           <p class="fragment small" style="color: var(--tertiary)">Why templates?</p>
+          <p class="fragment small">K8s resources differ fundamentally from web pages, emails, and push notifications.</p>
+          <p class="fragment small">Resources are structured data representing well-known and typed APIs.</p>
           <p class="fragment small">
-            K8s resources differ fundamentally from web pages, emails, and push notifications
-          </p>
-          <p class="fragment small">Resources are structured data</p>
-          <p class="fragment small">
-            The most effective tools for handling structured data are
-            <span style="color: var(--primary); font-weight: bold">programming languages</span>
+            The most effective tools for working with structured data are:
+            <span class="fragment"> <span style="color: var(--secondary); font-weight: bold">Programming Languages</span>.</span>
           </p>
         </section>
 
@@ -166,8 +155,10 @@
             <span class="fragment mrp5">manifests <img class="inline-img" src="/imgs/files.svg" /></span>
           </p>
 
-          <hr class="fragment" style="margin: 1em 0" />
-          <p class="header fragment">What is a Code Package?</p>
+          <div class="fragment">
+            <hr style="margin: 1em 0" />
+            <p class="header">What is a Code Package?</p>
+          </div>
           <p>
             <span class="fragment mrp5">Input</span>
             <span class="fragment mrp5">+</span>
@@ -175,20 +166,19 @@
             <span class="fragment mrp5">=</span>
             <span class="fragment mrp5">Output / K8s API resource(s)</span>
           </p>
-          <hr class="fragment" style="margin: 1em 0" />
-          <p class="fragment" style="color: var(--secondary)">A Helm Chart is a subset of Code Packages</p>
+          <div class="fragment">
+            <hr style="margin: 1em 0" />
+            <p style="color: var(--secondary)">A Helm Chart is a subset of Code Packages</p>
+          </div>
         </section>
 
         <section>
           <p class="header">Advantages of describing packages as code</p>
           <ul>
-            <li class="fragment">fully fledged developer environment</li>
-            <li class="fragment">discoverable contracts / compiler errors / static type checking</li>
-            <li class="fragment">control flow</li>
-            <li class="fragment">builtin testing</li>
-            <li class="fragment">
-              packaging, distribution and versioning is already solved: cargo, go modules, npm, and so on
-            </li>
+            <li class="fragment">Control flow</li>
+            <li class="fragment">Builtin testing</li>
+            <li class="fragment">Discoverable contracts, static typing, compiler errors, intilisense, and docs</li>
+            <li class="fragment">Packaging, distribution, and versioning is already solved: cargo, go modules, npm, ...</li>
           </ul>
         </section>
 
@@ -199,17 +189,21 @@
         </section>
 
         <section>
-          <p class="header">Challenges</p>
+          <p class="header">Challenges of Packages as Code</p>
           <hr />
-          <p class="fragment small" style="color: var(--tertiary)">How do we package code?</p>
-          <hr class="fragment" />
-          <p class="fragment small">Tools will want to execute our packages.</p>
+          <div class="fragment">
+            <p class="small" style="color: var(--tertiary)">How is the code going to be packaged and run?</p>
+            <hr />
+          </div>
+          <p class="fragment small">Should we send zips of code? Clone repositories?</p>
           <p class="fragment small">How can we support different languages? Different architectures?</p>
-          <hr class="fragment" />
-          <p class="fragment small" style="color: var(--tertiary)">How de we run code securely?</p>
-          <hr class="fragment" />
+          <div class="fragment">
+            <hr />
+            <p class="small" style="color: var(--tertiary)">How can we run code securely?</p>
+            <hr />
+          </div>
           <p class="fragment small">Third party code shouldn't be allowed to do arbitrary operations</p>
-          <p class="fragment small" style="font-weight: bolder; color: var(--secondary)">or access our clusters...</p>
+          <p class="fragment small" style="font-weight: bolder; color: var(--secondary)">such as access our clusters...</p>
         </section>
 
         <section>
@@ -217,7 +211,7 @@
         </section>
 
         <section>
-          <p class="header">Webassembly as package format</p>
+          <p class="header">Webassembly as a package format</p>
           <ul>
             <li class="fragment">
               One target for multiple languages and ecosystems, supported by: <span style="color: #00add8">go</span>,
@@ -232,10 +226,7 @@
         <section>
           <p class="header">Yoke: The experimental IaC Package Manager for K8s</p>
 
-          <p class="fragment small">
-            Yoke executes wasm programs, and creates a release from the output, tracking revisions accross time like
-            helm.
-          </p>
+          <p class="fragment small">Yoke executes wasm programs, and creates a release from the output, tracking revisions accross time like helm.</p>
           <p class="fragment small">In Yoke, packages, or programs that output K8s resources, are called Flights.</p>
         </section>
 
@@ -305,15 +296,15 @@
 					</script></code></pre>
         </section>
 
-        <section data-background="/imgs/demo.gif"></section>
+        <section>
+          <img style="width: 100%" src="/imgs/demo.gif" />
+        </section>
 
         <section>
           <p class="header">Compatibility with Helm Charts</p>
           <hr />
           <p class="fragment small">Reality-check: helm is the standard for packaging Kubernetes applications.</p>
-          <p class="fragment small">
-            If we want to start an ecosystem of packages as code it needs to be compatible with the previous ecosystem.
-          </p>
+          <p class="fragment small">If we want to start an ecosystem of packages as code it needs to be compatible with the previous ecosystem.</p>
           <p class="fragment" style="color: var(--secondary)">A Helm Chart is a subset of Code Packages</p>
         </section>
 
@@ -372,8 +363,7 @@
           <p class="header">Helm Charts and Type Inference</p>
           <p class="fragment small">Sometimes charts contain JSONSchemas.</p>
           <p class="fragment small">
-            Bitnami Charts' value files contain bespoke annotations that their tools can generate JSONSchema and
-            documentation from. <br />
+            Bitnami Charts' value files contain bespoke annotations that their tools can generate JSONSchema and documentation from. <br />
             <span class="fragment small" style="color: var(--tertiary)">(The answer is always more tooling)</span>
           </p>
         </section>
@@ -386,10 +376,7 @@
               --version=19.0.1 \
               --outdir=./redis
           </script></code></pre>
-          <pre
-            class="fragment"
-            data-id="code-animation"
-          ><code class="hljs go code-block" data-trim data-line-numbers><script type="text/template">
+          <pre class="fragment" data-id="code-animation"><code class="hljs go code-block" data-trim data-line-numbers><script type="text/template">
             package redis
                       
             import (
@@ -498,12 +485,9 @@
 
         <section>
           <p class="header">Continuous Deployment Tools</p>
+          <p class="fragment small">Client-Side tools for managing resources such as `helm` or using `kubectl apply` are falling out of favor.</p>
           <p class="fragment small">
-            Client-Side tools for managing resources such as `helm` or using `kubectl apply` are falling out of favor.
-          </p>
-          <p class="fragment small">
-            In-Cluster operators that sync manifests from git repositories and allow you to manage those resources are
-            the new norm.
+            In-Cluster operators that sync manifests from git repositories and allow you to manage those resources are the new norm.
           </p>
           <ul>
             <li class="fragment"><a href="https://argoproj.github.io/cd/">ArgoCD</a></li>
@@ -513,22 +497,15 @@
 
         <section>
           <p class="header">YokeCD: Yoke + ArgoCD</p>
+          <p class="fragment small">ArgoCD defines Applications bound to some source directory within a git repository.</p>
           <p class="fragment small">
-            ArgoCD defines Applications bound to some source directory within a git repository.
+            Helm is a first class citizen supported by ArgoCD Applications. Helm Charts are executed and the underlying resources managed by ArgoCD.
           </p>
           <p class="fragment small">
-            Helm is a first class citizen supported by ArgoCD Applications. Helm Charts are executed and the underlying
-            resources managed by ArgoCD.
-          </p>
-          <p class="fragment small">
-            <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/"
-              >Config Management Plugins</a
-            >
+            <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/">Config Management Plugins</a>
             allow to extend Application behaviour and generate resources directly from the plugin.
           </p>
-          <p class="fragment small">
-            YokeCD is the plugin that extends ArgoCD to fetch and execute yoke WASM packages.
-          </p>
+          <p class="fragment small">YokeCD is the plugin that extends ArgoCD to fetch and execute yoke WASM packages.</p>
         </section>
       </div>
     </div>
