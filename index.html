@@ -63,7 +63,10 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <p class="header">Yoke: An Exploration into Kubernetes Package Management as Code</p>
+          <p class="header">
+            Yoke <br />
+            An Exploration into Kubernetes Package Management as Code
+          </p>
           <p class="fragment small" style="color: var(--tertiary)">(A story from a platform engineer who wants to move beyond YAML for good)</p>
         </section>
 
@@ -85,43 +88,32 @@
         </section>
 
         <section>
-          <p class="header">
-            A Healthy Dose of
-            <img src="/imgs/reddit.svg" style="display: inline; width: 1em; position: relative; top: 0.5em; left: 0.25em" />
-
-            <span class="fragment"><br />(🍒 picking)</span>
-          </p>
-          <p class="fragment">“Helm templating language was a mistake. > 90% of helm chart commits are bug fixes for indent”</p>
-          <p class="fragment">“Helm makes it overly complex, or is it just me?”</p>
-          <p class="fragment">“Why Helm's design is flawed”</p>
-        </section>
-
-        <section>
           <p class="header">The Issues with Helm</p>
           <ul>
             <li class="fragment">Not statically typed</li>
+            <li class="fragment">Manually need to maintain schema and values - most projects forgo schemas</li>
             <li class="fragment">Sensitive to typos and indentation errors</li>
             <li class="fragment">No builtin testing</li>
-            <li class="fragment">Manually need to maintain schema and values - most projects forgo schemas</li>
             <li class="fragment">Difficult to derive new data from inputs</li>
-            <li class="fragment">Inconsistent experience between editors (pay-to-play)</li>
             <li class="fragment">No documentation generation - read the <em>YAML</em></li>
+            <li class="fragment">Inconsistent experience between editors</li>
           </ul>
         </section>
 
         <section>
           <p class="header">Question: How it is solved?</p>
-          <p class="fragment" style="color: var(--tertiary)"><strong>Answer: More tooling</strong></p>
-          <div style="display: flex; justify-content: space-between">
-            <div>
+          <div class="fragment">
+            <p style="color: var(--tertiary)"><strong>Answer: More tooling</strong></p>
+            <hr />
+          </div>
+          <div style="display: flex">
+            <div style="margin-right: 2em">
               <p class="fragment small">Bespoke test frameworks:</p>
               <ul>
                 <li class="fragment"><a href="https://github.com/helm-unittest/helm-unittest">helm-unittest</a></li>
                 <li class="fragment"><a href="https://github.com/silphid/testchart">testchart</a></li>
                 <li class="fragment">...</li>
               </ul>
-            </div>
-            <div>
               <p class="fragment small">Schemas and Data Validation:</p>
               <ul>
                 <li class="fragment"><a href="https://cuelang.org/">Cue</a></li>
@@ -129,11 +121,19 @@
                 <li class="fragment">...</li>
               </ul>
             </div>
+            <div>
+              <p class="fragment small">Chart Navigation:</p>
+              <ul>
+                <li class="fragment small">IntilliJ Editor Plugins</li>
+                <li class="fragment small">VsCode Kubernetes Plugin</li>
+                <li class="fragment small">...</li>
+              </ul>
+            </div>
           </div>
         </section>
 
         <section>
-          <p class="header">Coming back through the looking glass</p>
+          <p class="header">Taking a step back</p>
           <p class="fragment small" style="color: var(--tertiary)">Why YAML?</p>
           <p class="fragment small" style="color: var(--tertiary)">Why templates?</p>
           <p class="fragment small">K8s resources differ fundamentally from web pages, emails, and push notifications.</p>
@@ -145,8 +145,7 @@
         </section>
 
         <section>
-          <p class="header">What is a Helm Chart?</p>
-          <hr />
+          <p class="header">Mental Model Shift</p>
           <p>
             <span class="fragment mrp5">values.yaml <img class="inline-img" src="/imgs/file.svg" /></span>
             <span class="fragment mrp5">+</span>
@@ -157,7 +156,6 @@
 
           <div class="fragment">
             <hr style="margin: 1em 0" />
-            <p class="header">What is a Code Package?</p>
           </div>
           <p>
             <span class="fragment mrp5">Input</span>
@@ -166,10 +164,6 @@
             <span class="fragment mrp5">=</span>
             <span class="fragment mrp5">Output / K8s API resource(s)</span>
           </p>
-          <div class="fragment">
-            <hr style="margin: 1em 0" />
-            <p style="color: var(--secondary)">A Helm Chart is a subset of Code Packages</p>
-          </div>
         </section>
 
         <section>
@@ -235,12 +229,12 @@
           <p>All code samples will be written in <span style="color: var(--tertiary)">Go</span></p>
         </section>
 
-        <section>
+        <!-- <section>
           <p class="header">Demo Flight:</p>
           <pre
             class="fragment"
             data-id="code-animation"
-          ><code class="hljs go code-block" data-trim data-line-numbers="|1|9-11|25-27|29-40|42-45|47-49|51"><script type="text/template">
+          ><code class="hljs go code-block" data-trim data-line-numbers="|1|9-11|22-23|25-27|29-40|42-45|47-49|51"><script type="text/template">
             package main
 
             import (
@@ -294,13 +288,21 @@
             	return json.NewEncoder(os.Stdout).Encode([]any{deployment})
             }
 					</script></code></pre>
-        </section>
+        </section> -->
 
-        <section>
+        <!-- <section>
           <img style="width: 100%" src="/imgs/demo.gif" />
-        </section>
+        </section> -->
 
         <section>
+          <p class="header">Demo!</p>
+          <ul>
+            <li>A simple Yoke Flight (Program)</li>
+            <li>ArgoCD and Yoke integration</li>
+          </ul>
+        </section>
+
+        <!-- <section>
           <p class="header">Compatibility with Helm Charts</p>
           <hr />
           <p class="fragment small">Reality-check: helm is the standard for packaging Kubernetes applications.</p>
@@ -506,7 +508,7 @@
             allow to extend Application behaviour and generate resources directly from the plugin.
           </p>
           <p class="fragment small">YokeCD is the plugin that extends ArgoCD to fetch and execute yoke WASM packages.</p>
-        </section>
+        </section> -->
       </div>
     </div>
 
